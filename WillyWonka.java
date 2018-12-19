@@ -35,7 +35,9 @@ public class WillyWonka{
                             System.out.println("Please tell me the number of lines of the song:");
                             int song_length = Integer.parseInt(System.console().readLine());
                             OompaLoompaSong ol_song = new OompaLoompaSong(song_length);
-                            ol_song.sing();
+                            System.out.println();
+                            System.out.println("Your song is:");
+                            System.out.println(ol_song.sing());
                             break;
                         case 5:  System.out.println("You pressed 5");
                             break;
@@ -52,7 +54,7 @@ public class WillyWonka{
                             break;
                     }
 
-                    System.out.println(repeat("=",20));
+                    System.out.println(repeat("=",20) + "\n");
                 }
                 catch(Exception ex)
                 {
