@@ -47,7 +47,7 @@ public class OompaLoompaSong{
         String return_string = "";
         for(int i = 0; i<line_count;i++)
         {
-            return_string += song_lyrics.get(rand.nextInt(22)+1) + "\n";
+            return_string += song_lyrics.get(rand.nextInt(23)) + "\n";
         }
         return return_string;
     }
