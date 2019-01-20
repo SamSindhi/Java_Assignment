@@ -1,6 +1,9 @@
 import java.text.SimpleDateFormat;  
 import java.util.Date;
 
+import javax.lang.model.util.ElementScanner6;
+
+import Factory.GoldenTicket;
 import Factory.OompaLoompaSong;
 import Factory.Being.Generic;
 import Factory.Being.Kid;
@@ -33,11 +36,21 @@ public class WillyWonka{
                     System.out.println("You pressed " + menu_number);
 
                     switch (menu_number) {
-                        case 1:  System.out.println("You pressed 1");
+                        case 1:  
+                            System.out.println("Code of Ticket:");
+                            String codeOfTicket = System.console().readLine();
+                            System.out.println("Date of Ticket:");
+                            Date dateOfTicket = defaultDateFormat.parse(System.console().readLine());
+                            
+                            fileManager.addPrizeTicket(new GoldenTicket(codeOfTicket, dateOfTicket));
+                            System.out.println("Added Successfully!");
                             break;
-                        case 2:  System.out.println("You pressed 2");
+                        case 2:
+                            fileManager.printPrizeTickets();  
+                            fileManager.printProductTickets();
                             break;
-                        case 3:  System.out.println("You pressed 3");
+                        case 3:  
+                            fileManager.printProductTickets();
                             break;
                         case 4:                            
                             System.out.println("Please tell me the number of lines of the song:");
@@ -78,31 +91,23 @@ public class WillyWonka{
                             }
                             break;
                         case 6:  System.out.println("Press 1 for Product without Ticket and 2 for Product with Ticket:");
-                            int case6decision = Integer.parseInt(System.console().readLine());
+                            int isTicketless = Integer.parseInt(System.console().readLine());
+                            int ticketCode = -10;
+                            if(isTicketless == 2){
+                                System.out.println("Enter Ticket Code:");
+                                ticketCode = Integer.parseInt(System.console().readLine());
+                            }
                             System.out.println("Description of Product:");
-                            int codeOfKid = Integer.parseInt(System.console().readLine());
+                            String descriptionOfProduct = System.console().readLine();
                             System.out.println("Barcode of Product:");
-                            String nameOfKid = System.console().readLine();
+                            long barcodeOfProduct = Long.parseLong(System.console().readLine());
                             System.out.println("Serial Number of Product:");
-                            Date birthdayOfKid = defaultDateFormat.parse(System.console().readLine());
+                            String serialNumberOfProduct = System.console().readLine();
                             
-                            switch (case6decision) {
-                                case 1:
-                                    
-                                    
-                                    break;
-                                case 2:
-                                    System.out.println("Code of Oompa Loompa:");
-                                    int codeOfOompaLoompa = Integer.parseInt(System.console().readLine());
-                                    System.out.println("Name of Oompa Loompa:");
-                                    String nameOfOompaLoompa = System.console().readLine();
-                                    System.out.println("Height of Oompa Loompa:");
-                                    int heightOfOompaLoompa = Integer.parseInt(System.console().readLine());
-                                    System.out.println("Favourite Food of Oompa Loompa:");
-                                    String favouriteFoodOfOompaLoompa = System.console().readLine();
-                                    fileManager.addBeing(new OompaLoompa(codeOfOompaLoompa, nameOfOompaLoompa, heightOfOompaLoompa, favouriteFoodOfOompaLoompa));
-                                    System.out.println("Added Successfully!");
-                                    break;
+                            if(isTicketless == 2){                                
+                                fileManager.addProduct(new Product(descriptionOfProduct, barcodeOfProduct, serialNumberOfProduct, fileManager.getPrizeTickeyByCode(ticketCode)));
+                            }else{
+                                fileManager.addProduct(new Product(descriptionOfProduct, barcodeOfProduct, serialNumberOfProduct));
                             }
                             break;
                         case 7: 

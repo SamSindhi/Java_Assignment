@@ -20,6 +20,7 @@ import java.util.Random;
 public class FileMan{
     private static ArrayList<Generic> beingsList = new ArrayList<Generic>();
     private static ArrayList<Product> productsList = new ArrayList<Product>();
+    private static ArrayList<GoldenTicket> prizeTicketsList = new ArrayList<GoldenTicket>();
     private static SimpleDateFormat defaultDateFormat  = new SimpleDateFormat("dd/MM/yyyy");
 
     public FileMan(){
@@ -127,6 +128,29 @@ public class FileMan{
         }
     }
 
+    public static void printProductTickets()
+    {
+        for (Product currentProduct : productsList)  
+        {
+            if(currentProduct.getPrizeTicket() != null){
+                System.out.println(currentProduct.getPrizeTicketString());
+            }
+        }
+    }
+
+    public static void printPrizeTickets()
+    {
+        for (GoldenTicket currentTicket : prizeTicketsList)  
+        {            
+            System.out.println((new StringBuilder()).append(currentTicket.getCode()).append(",").append(currentTicket.getDateRaffled()).append(",").toString());
+        }
+    }
+
+    public static void addPrizeTicket(GoldenTicket ticketToAdd)
+    {
+        prizeTicketsList.add(ticketToAdd);
+    }
+
     public static Product findProductByBarcode(long barcode){
         for (Product currentProduct : productsList)  
         {
@@ -150,15 +174,33 @@ public class FileMan{
         saveProducts();
     }
 
+    public static void addProduct(Product productToAdd)
+    {
+        productsList.add(productToAdd);
+        saveProducts();
+    }
+
     public static Product getRandomProduct()
     {
         Random rand = new Random();
-        return productsList.get(rand.nextInt(fileManager.get) + 1);
+        return productsList.get(rand.nextInt(productsList.size()) + 1);
     }
 
     public static GoldenTicket getNewGoldenTicket()
     {
         Random rand = new Random();
-        return productsList.get(rand.nextInt(fileManager.get) + 1);
+        return new GoldenTicket(Integer.toString(rand.nextInt(10000)), new java.util.Date());
+    }
+
+    public static GoldenTicket getPrizeTickeyByCode(int code)
+    {
+        for (GoldenTicket currentTicket : prizeTicketsList)  
+        {
+            if(currentTicket.getCode() == Integer.toString(code)){
+                return currentTicket;
+            }
+        }
+
+        return null;
     }
 }
