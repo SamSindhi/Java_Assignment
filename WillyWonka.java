@@ -1,11 +1,12 @@
 import java.text.SimpleDateFormat;  
 import java.util.Date;
 
-
 import Factory.OompaLoompaSong;
 import Factory.Being.Generic;
 import Factory.Being.Kid;
 import Factory.Being.OompaLoompa;
+import Factory.Product;
+
 
 public class WillyWonka{
 
@@ -76,13 +77,77 @@ public class WillyWonka{
                                     break;
                             }
                             break;
-                        case 6:  System.out.println("You pressed 6");
+                        case 6:  System.out.println("Press 1 for Product without Ticket and 2 for Product with Ticket:");
+                            int case6decision = Integer.parseInt(System.console().readLine());
+                            System.out.println("Description of Product:");
+                            int codeOfKid = Integer.parseInt(System.console().readLine());
+                            System.out.println("Barcode of Product:");
+                            String nameOfKid = System.console().readLine();
+                            System.out.println("Serial Number of Product:");
+                            Date birthdayOfKid = defaultDateFormat.parse(System.console().readLine());
+                            
+                            switch (case6decision) {
+                                case 1:
+                                    
+                                    
+                                    break;
+                                case 2:
+                                    System.out.println("Code of Oompa Loompa:");
+                                    int codeOfOompaLoompa = Integer.parseInt(System.console().readLine());
+                                    System.out.println("Name of Oompa Loompa:");
+                                    String nameOfOompaLoompa = System.console().readLine();
+                                    System.out.println("Height of Oompa Loompa:");
+                                    int heightOfOompaLoompa = Integer.parseInt(System.console().readLine());
+                                    System.out.println("Favourite Food of Oompa Loompa:");
+                                    String favouriteFoodOfOompaLoompa = System.console().readLine();
+                                    fileManager.addBeing(new OompaLoompa(codeOfOompaLoompa, nameOfOompaLoompa, heightOfOompaLoompa, favouriteFoodOfOompaLoompa));
+                                    System.out.println("Added Successfully!");
+                                    break;
+                            }
                             break;
-                        case 7:  System.out.println("You pressed 7");
+                        case 7: 
+                            System.out.println("How many Golden Tickets to Ruffle?");
+                            int count = Integer.parseInt(System.console().readLine());
+                            
+                            for(int i=0;i<=count;i++){
+                                fileManager.getRandomProduct().setPrizeTicket(fileManager.getNewGoldenTicket());
+                            }
                             break;
-                        case 8:  System.out.println("You pressed 8");
+                        case 8:  
+                            System.out.println("Please enter the User Code:");
+                            int userCode = Integer.parseInt(System.console().readLine());
+                            System.out.println("Please enter the Product Barcode:");
+                            long productBarcode = Long.parseLong(System.console().readLine());
+
+                            for (Generic being : fileManager.getBeings())  
+                            {
+                                if(being instanceof Kid){
+                                    Kid currentKid = (Kid)being;
+                                    if(currentKid.getCode() == userCode)
+                                    {
+                                        Product purchasedProduct = fileManager.findProductByBarcode(productBarcode);
+                                        currentKid.addPurchasedProduct(purchasedProduct);
+                                        fileManager.removeProduct(purchasedProduct.getSerialNumber(), purchasedProduct.getBarcode());
+                                    }
+                                }
+                            } 
+
                             break;
-                        case 9:  System.out.println("You pressed 9");
+                        case 9:  
+                            System.out.println("The Winners are:");
+                            for (Generic being : fileManager.getBeings())  
+                            {
+                                if(being instanceof Kid){
+                                    Kid currentKid = (Kid)being;
+                                    for (Product currentProduct : currentKid.getPurchasedProducts())  
+                                    {
+                                        if(currentProduct.getPrizeTicket() != null)
+                                        {
+                                            System.out.println(currentKid.getName());
+                                        }
+                                    }
+                                }
+                            } 
                             break;
                         case 0:  break;
                         default: System.out.println("You pressed something I cannot do");
