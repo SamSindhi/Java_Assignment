@@ -1,6 +1,6 @@
 package Factory.Being;
 
-public class Generic{
+public abstract class Generic{
     private int code;
     private String name;
 
